@@ -1,0 +1,60 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+    background-color: #00c0e6 !important;
+}
+
+.navbar-brand {
+    font-size: 32px;
+}
+
+.navbar a {
+    border-radius: 50px;
+    width: 150px;
+}
+
+.jumbotron {
+    height: 600px;
+    color: white;
+    background-color: #00c0e6 !important;
+    padding-top: 150px;
+    margin-bottom: 70px;
+}
+
+.jumbotron a{
+    border-radius: 50px;
+    width: 150px;
+}
+
+.jumbotron img {
+    width: 500px;
+}
+
+#mulai {
+    margin-bottom: 50px;
+}
+
+
+#sentiment .col-4 {
+    margin-bottom: 25px;
+}
+
+#sentiment img{
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+#sentiment h6 {
+    margin-top: 10px;
+}
+
+#sentiment .btn{
+    width: 70px;
+    height: 30px;
+}
+
+
