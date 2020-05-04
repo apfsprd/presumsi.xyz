@@ -1,3 +1,20 @@
+<?php
+  require "autoload.php";
+  use Abraham\TwitterOAuth\TwitterOAuth;
+
+  $consumer_key = 'TeqroXqCXV7tXXdiYJITIEboE';
+  $consumer_secret = 'j3ST0KxNONYvg0lX6EOr4zpoOI1HwTcsJsAClwB1VNz6fBKxg2';
+  $access_token = '1004847962256695296-tVa5ARrvt89rDMZNv2aAQgWedUqFsi';
+  $access_token_secret = 'kBbkqPmJGQekNfF3hw0TW6YhgKGTG7zgMfwEqeFOsvynp';
+
+  $connection = new TwitterOAuth( $consumer_key, $consumer_secret , $access_token, $access_token_secret);
+  $connection->setTimeouts(10, 15);
+  $url = $connection->url("oauth/authorize", ["oauth_token" => $access_token]);
+  $statuses = $connection->get("search/tweets", ["q" => "test"]);
+
+  var_dump($statuses);
+  die;
+?>
 <!doctype html>
 <html lang="en">
   <head>
