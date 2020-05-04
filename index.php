@@ -10,10 +10,12 @@
   $connection = new TwitterOAuth( $consumer_key, $consumer_secret , $access_token, $access_token_secret);
   $connection->setTimeouts(10, 15);
   $url = $connection->url("oauth/authorize", ["oauth_token" => $access_token]);
-  $statuses = $connection->get("search/tweets", ["q" => "test"]);
-
-  var_dump($statuses);
-  die;
+  
+  $statuses = $connection->get("search/tweets", ["q" => "test", "lang" => "id"]);
+  $hasil = json_decode(json_encode($statuses), true);
+  
+  // var_dump($hasil);
+  // die;
 ?>
 <!doctype html>
 <html lang="en">
@@ -144,11 +146,43 @@
           </div>
       </div>
 
+      
       <!-- SEARCH -->
       <div class="row" id="sentiment">
-          
-      </div>
-      <!-- /SEARCH -->
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Photo</th>
+            <th scope="col">User</th>
+            <th scope="col">Tweet</th>
+            <th scope="col">Tanggal</th>
+            <th scope="col">link</th>
+            <th scope="col">Sentiment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php 
+            $i = 1;
+            foreach($hasil['statuses'] as $tweet) { 
+          ?>
+            <tr>
+              <th scope="row"><?= $i++ ?></th>
+              <td><img src="<?= $tweet['user']['profile_image_url_https']; ?>" class="img-thumbnail" alt=""></td>
+              <td><?= $tweet['user']['name']; ?> <br> <p class="text-muted"> <?= $tweet['user']['screen_name']; ?></p></td>
+              <td><?= $tweet['text']; ?></td>
+              <td><?= $tweet['created_at']; ?></td>
+              <td><a href="https://twitter.com/i/web/status/<?= $tweet['id_str']; ?>" Target="_blank"><h6>Link</h6></a></td>
+              <td>Sentiment</td>
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
+
+    </div>
+    <!-- /SEARCH -->
+      
 
 
   </div>
@@ -165,15 +199,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>  </body>
 
     <!-- Script.js -->
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 
     <!-- sha1 -->
-    <script src="CryptoJS-v3.1.2/rollups/hmac-sha1.js"></script>
+    <!-- <script src="CryptoJS-v3.1.2/rollups/hmac-sha1.js"></script> -->
 
     <!-- sha256 -->
-    <script src="CryptoJS-v3.1.2/rollups/hmac-sha256.js"></script>
-    <script src="CryptoJS-v3.1.2/components/enc-base64-min.js"></script>
-    <script src="oauth-1.0a.js"></script>
+    <!-- <script src="CryptoJS-v3.1.2/rollups/hmac-sha256.js"></script> -->
+    <!-- <script src="CryptoJS-v3.1.2/components/enc-base64-min.js"></script> -->
+    <!-- <script src="oauth-1.0a.js"></script> -->
 
     <!-- AOS Animate -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
