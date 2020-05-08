@@ -33,27 +33,14 @@
 }
 
 #mulai {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
-
-#sentiment .col-4 {
-    margin-bottom: 25px;
-}
 
 #sentiment img{
     width: 70px;
     border-radius: 100%;
-    margin-right: 10px;
 }
 
-#sentiment h6 {
-    margin-top: 10px;
-}
-
-#sentiment .btn{
-    width: 70px;
-    height: 30px;
-}
 
 

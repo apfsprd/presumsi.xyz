@@ -6,6 +6,11 @@
  * @param string $class The fully-qualified class name.
  * @return void
  */
+require __DIR__.'/lib/PHPInsight/Autoloader.php';
+
+PHPInsight\Autoloader::register();
+
+
 spl_autoload_register(function ($class) {
 
     // project-specific namespace prefix

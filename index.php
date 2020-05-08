@@ -1,15 +1,14 @@
 <?php
   require "autoload.php";
   use Abraham\TwitterOAuth\TwitterOAuth;
+
+
   if(isset($_POST['submit'])){
     $q = $_POST["query"];
     $until = $_POST["until"];
     $lang = "id";
     $result_type = $_POST["tipe"];
     $count = $_POST["count"];
-
-    // var_dump($count);
-    // die;
 
     $consumer_key = 'TeqroXqCXV7tXXdiYJITIEboE';
     $consumer_secret = 'j3ST0KxNONYvg0lX6EOr4zpoOI1HwTcsJsAClwB1VNz6fBKxg2';
@@ -27,81 +26,22 @@
       "result_type" => $result_type,
       "count" => $count
     ]);
+
     $hasil = json_decode(json_encode($statuses), true);
+    // $hasil = $hasil['statuses'];
     
-    // var_dump($hasil);
+
+    // var_dump($hasil[0]['text']);
     // die;
   }
   
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- FONT MONTSERRAT-->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-    <!-- AOS CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <title>Sentiment Analysis - @apfsprd</title>
-  </head>
-
-  <body>
-    
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#"><b><i>Presumsi</i></b></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ml-auto">
-                  <a class="nav-item nav-link btn btn-primary active" href="#mulai">Mulai</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- /NAVBAR -->
-
-    <!-- ===================================================== JUMBOTRON -->
-    <div class="jumbotron cover jumbotron-fluid">
-
-      <div class="container">
-    
-        <div class="row align-items-center">
-    
-            <div class="col">
-                <h1 class="display-4" data-aos="fade-up" data-aos-duration="3000">Analisis Cuitan warganet di twitter</h1>
-                <p class="lead" data-aos="fade-up" data-aos-duration="3000">Tweet (cuitan) di twitter sebagai data yang dianalisis</p>
-                <a href="#mulai" class="btn btn-success" data-aos="fade-up" data-aos-duration="3000">Mulai Analisis</a>
-            </div>
-    
-            <div class="col">
-                <img src="http://localhost/datamining-apfsprd/img/landingpage2.svg" alt="">
-            </div>
-    
-        </div>
-    
-      </div>
-    </div>
-    <!-- ===================================================== JUMBOTRON -->
-    
+  <?php include 'header.php'; ?>
     <div class="container">
 
       <div class="row mt-3 justify-content-center" id="mulai">
           <div class="col-md-8">
-            <form action="index.php" method="post">
+            <form action="" method="post">
 
               <h1 class="text-center"><b>Mulai Analisis</b></h1>
               <h5 class="text-center mb-4">Isi form untuk bisa mendapatkan cuitan (Tweet) yang sesuai</h6>
@@ -167,6 +107,10 @@
       <!-- SEARCH -->
       <div class="row" id="sentiment">
 
+      <?php if (isset($_POST['submit'])) {?>
+        <h4 class="text-center">Hasil untuk <span class="badge badge-success"><?= $_POST['query']; ?></span></h4>
+      <?php } ?>
+
       <table class="table table-hover">
         <thead>
           <tr>
@@ -180,20 +124,58 @@
           </tr>
         </thead>
         <tbody>
-        <?php if(isset($_POST['submit'])) {?>
+        <?php if(isset($_POST['submit'])) { ?>
           <?php if($hasil['statuses'] >= array(0)) {?>
             <?php
-              $i = 1;
+              $a = 1;
               foreach($hasil['statuses'] as $tweet) { 
+
+              if (PHP_SAPI != 'cli') {
+                echo "<pre>";
+              }
+            
+              $strings = array(
+                1 => $tweet['text']
+              );
+            
+              require_once __DIR__ . '/autoload.php';
+              $sentiment = new \PHPInsight\Sentiment();
+
+              
             ?>
+
               <tr>
-                <th scope="row"><?= $i++ ?></th>
+                <th scope="row"><?= $a++ ?></th>
                 <td><img src="<?= $tweet['user']['profile_image_url_https']; ?>" class="img-thumbnail" alt=""></td>
                 <td><?= $tweet['user']['name']; ?> <br> <p class="text-muted"> <?= $tweet['user']['screen_name']; ?></p></td>
                 <td><?= $tweet['text']; ?></td>
                 <td><?= $tweet['created_at']; ?></td>
                 <td><a href="https://twitter.com/i/web/status/<?= $tweet['id_str']; ?>" Target="_blank"><h6>Link</h6></a></td>
-                <td>Sentiment</td>
+                <td><?php 
+                    $i=1;
+                    foreach ($strings as $string) {
+
+                      // calculations:
+                      $scores = $sentiment->score($string);
+                      $class = $sentiment->categorise($string);
+
+                      // output:
+                      if (in_array("pos", $scores)) {
+                          echo "Got positif";
+                      }
+
+                      // echo "\n\nHasil:";
+                      // echo "\nKalimat: <b>$string</b>\n";
+                      echo "<b>$class</b>, nilai: ";
+                      // var_dump($scores);
+                      foreach ($scores as $skor) {
+                        echo $skor;
+                      }
+                      echo "\n\n";
+                      $i++;
+                    }
+                ?>
+                </td>
               </tr>
             <?php } ?>
           <?php } else {?>
@@ -212,35 +194,5 @@
 
     </div>
     <!-- /SEARCH -->
-      
 
-
-  </div>
-   <!-- ===================================================== FOOTER -->
-   <ul class="nav justify-content-center" style="background-color: #005698 !important">
-    <p style="color: white; font-size: 15px; margin-top: 10px; "><i>[ ] dengan &hearts; di Tangerang, Banten</i></p>
-  </ul>
-  <!-- ===================================================== FOOTER -->
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>  </body>
-
-    <!-- Script.js -->
-    <!-- <script src="script.js"></script> -->
-
-    <!-- sha1 -->
-    <!-- <script src="CryptoJS-v3.1.2/rollups/hmac-sha1.js"></script> -->
-
-    <!-- sha256 -->
-    <!-- <script src="CryptoJS-v3.1.2/rollups/hmac-sha256.js"></script> -->
-    <!-- <script src="CryptoJS-v3.1.2/components/enc-base64-min.js"></script> -->
-    <!-- <script src="oauth-1.0a.js"></script> -->
-
-    <!-- AOS Animate -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init(); </script>
-
-</html>
+  <?php include 'footer.php'; ?>
