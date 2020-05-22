@@ -1,3 +1,4 @@
+
 * {
     font-family: 'Montserrat', sans-serif;
 }
@@ -42,5 +43,57 @@
     border-radius: 100%;
 }
 
+/*  Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) { 
+
+    .navbar-brand {
+        font-size: 32px;
+    }
+    
+    .navbar a {
+        border-radius: 50px;
+        width: 150px;
+    }
+    
+    .jumbotron {
+        height: 600px;
+        color: white;
+        background-color: #00c0e6 !important;
+        padding-top: 150px;
+        margin-bottom: 70px;
+    }
+
+    .jumbotron h1 {
+        font-size: 38px;
+    }
+
+    .jumbotron p{
+        font-size: 14px;
+    }
+    
+    .jumbotron a{
+        border-radius: 50px;
+        width: 150px;
+    }
+    
+    .jumbotron img {
+        width: 380px;
+    }
+    
+    #mulai {
+        margin-bottom: 30px;
+    }
+    
+    
+    #sentiment img{
+        width: 70px;
+        border-radius: 100%;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+}
 
 
