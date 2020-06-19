@@ -34,11 +34,11 @@
 }
 
 #mulai {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 
-#sentiment img{
+#hasil img{
     width: 70px;
     border-radius: 100%;
 }
@@ -85,7 +85,7 @@
     }
     
     
-    #sentiment img{
+    #hasil img{
         width: 70px;
         border-radius: 100%;
     }

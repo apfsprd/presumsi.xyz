@@ -36,7 +36,7 @@
   }
   
 ?>
-  <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <section id="mulai">
 <div class="container">
@@ -105,18 +105,15 @@
 </div>
 </section>
 
+
 <section id="hasil">
   <div class="container">
-    <div class="row" id="sentiment">
-    
+    <div class="row">
+
     <?php if (isset($_POST['submit'])) { ?>
-      <h4 class="text-center">Hasil untuk <span class="badge badge-success"><?= $_POST['query']; ?></span></h4>
+      <h4>Hasil untuk <span class="badge badge-success"><?= $_POST['query']; ?></span></h4>
     <?php } ?>
 
-    
-        
-        <span class="badge badge-<?= $color; ?>" style="font-size: 18px;"><?= $class; ?></span>
-    
     <table id="myTable" class="display" style="width:100%">
       <thead>
         <tr>
@@ -129,6 +126,7 @@
           <th scope="col">Sentiment</th>
         </tr>
       </thead>
+
       <tbody>
       <?php if(isset($_POST['submit'])) { ?>
         <?php if($hasil['statuses'] >= array(0)) {?>
@@ -136,9 +134,9 @@
             $a = 1;
             foreach($hasil['statuses'] as $tweet) { 
 
-            if (PHP_SAPI != 'cli') {
-              echo "<pre>";
-            }
+            // if (PHP_SAPI != 'cli') {
+            //   echo "<pre>";
+            // }
           
             $strings = array(
               1 => $tweet['text']
@@ -171,12 +169,15 @@
                     $color=NULL;
                     if($class =='positif') {
                         $color='success';
+                        
                     }
                     else if($class =='negatif') {
                         $color='danger';
+                        
                     }
                     else if($class =='netral') {
                         $color='secondary';
+                        
                     }
 
                     ?>
@@ -194,11 +195,11 @@
               </td>
             </tr>
           <?php } ?>
-        <?php } else {?>
-            <tr>
-              <td colspan="7" class="text-center"><i>Tweet tidak ada yang cocok dengan kata kunci</i></td>
-            </tr>
-        <?php } ?>
+          <?php } else {?>
+              <tr>
+                <td colspan="7" class="text-center"><i>Tweet tidak ada yang cocok dengan kata kunci</i></td>
+              </tr>
+          <?php } ?>
         <?php } else { ?>
           <tr>
               <td colspan="7" class="text-center"><i>Query belum dikirim</i></td>
@@ -207,10 +208,11 @@
       
       </tbody>
     </table>
-
+    
+    
+   
+    </div>
   </div>
-  <!-- /SEARCH -->
-</div>
 </section>
   
   <?php include 'footer.php'; ?>
