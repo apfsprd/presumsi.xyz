@@ -29,7 +29,9 @@
 
     $hasil = json_decode(json_encode($statuses), true);
     // $hasil = $hasil['statuses'];
-    
+    $pos=0;
+    $neg=0;
+    $net=0;
 
     // var_dump($hasil[0]['text']);
     // die;
@@ -155,6 +157,8 @@
               <td><a href="https://twitter.com/i/web/status/<?= $tweet['id_str']; ?>" Target="_blank">link</a></td>
               <td><?php 
                   $i=1;
+
+                 
                   foreach ($strings as $string) {
 
                     // calculations:
@@ -166,20 +170,21 @@
                         echo "Got positif";
                     } 
 
+                    
                     $color=NULL;
                     if($class =='positif') {
-                        $color='success';
-                        
+                      $color='success';
+                      $pos++;
                     }
                     else if($class =='negatif') {
-                        $color='danger';
-                        
+                      $color='danger';
+                      $neg++;
                     }
                     else if($class =='netral') {
-                        $color='secondary';
-                        
+                      $color='secondary';
+                      $net++;
                     }
-
+                   
                     ?>
                     
                     <span class="badge badge-<?= $color; ?>" style="font-size: 18px;"><?= $class; ?></span>
@@ -209,8 +214,11 @@
       </tbody>
     </table>
     
-    
-   
+   <?php
+   $total=$pos+$neg+$net;
+  //  var_dump($total);
+   ?>
+   <p class="res"><span class="pos">Positive Tweets: <?php echo round(($pos/$total)*100);?>%</span> | <span class="neu">Neutral Tweets: <?php echo round(($net/$total)*100);?>%</span> | <span class="neg"> Negative Tweets: <?php echo round(($neg/$total)*100);?>%</span> </p>
     </div>
   </div>
 </section>
