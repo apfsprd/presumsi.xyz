@@ -1,5 +1,6 @@
 <?php
   require "autoload.php";
+  require "koneksi.php";
   use Abraham\TwitterOAuth\TwitterOAuth;
 
 
@@ -9,6 +10,8 @@
     $lang = "id";
     $result_type = $_POST["tipe"];
     $count = $_POST["count"];
+
+    
 
     $consumer_key = 'TeqroXqCXV7tXXdiYJITIEboE';
     $consumer_secret = 'j3ST0KxNONYvg0lX6EOr4zpoOI1HwTcsJsAClwB1VNz6fBKxg2';
@@ -29,10 +32,10 @@
 
     $hasil = json_decode(json_encode($statuses), true);
     // $hasil = $hasil['statuses'];
+    
     $pos=0;
     $neg=0;
     $net=0;
-
     // var_dump($hasil[0]['text']);
     // die;
   }
@@ -44,7 +47,7 @@
 <div class="container">
   <div class="row mt-3 justify-content-center">
       <div class="col-md-8">
-        <form action="" method="post">
+        <form action="index.php" method="post">
 
           <h1 class="text-center"><b>Mulai Analisis</b></h1>
           <h5 class="text-center mb-4">Isi form untuk bisa mendapatkan cuitan (Tweet) yang sesuai</h6>
@@ -157,7 +160,7 @@
               <td><a href="https://twitter.com/i/web/status/<?= $tweet['id_str']; ?>" Target="_blank">link</a></td>
               <td><?php 
                   $i=1;
-
+                  
                  
                   foreach ($strings as $string) {
 
@@ -198,8 +201,16 @@
                     $i++; } 
                   ?>
               </td>
-            </tr>
+            </tr>            
           <?php } ?>
+          
+          <?php $total=$pos+$neg+$net; ?>
+          <p class="res" style="font-size: 32px;"><span class="pos" style="color: Green">Positive Tweets: <?php echo $positif = round(($pos/$total)*100);?>%</span>  <span class="neu" style="color: gray">Neutral Tweets: <?php echo $netral = round(($net/$total)*100);?>%</span>  <span class="neg" style="color: red"> Negative Tweets: <?php echo $negatif = round(($neg/$total)*100);?>%</span> </p>
+          <?php 
+            mysqli_query($connect, "INSERT INTO sentimentb (id, katakunci, jumlahtweet, tipehasil, tanggal, positif, netral, negatif, total)
+            values ('','$q','$count','$result_type','$until','$positif%','$netral%','$negatif%', '$total')");
+          ?>
+          
           <?php } else {?>
               <tr>
                 <td colspan="7" class="text-center"><i>Tweet tidak ada yang cocok dengan kata kunci</i></td>
@@ -210,15 +221,11 @@
               <td colspan="7" class="text-center"><i>Query belum dikirim</i></td>
             </tr>
       <?php } ?>
-      
       </tbody>
     </table>
     
-   <?php
-   $total=$pos+$neg+$net;
-  //  var_dump($total);
-   ?>
-   <p class="res"><span class="pos">Positive Tweets: <?php echo round(($pos/$total)*100);?>%</span> | <span class="neu">Neutral Tweets: <?php echo round(($net/$total)*100);?>%</span> | <span class="neg"> Negative Tweets: <?php echo round(($neg/$total)*100);?>%</span> </p>
+    
+      
     </div>
   </div>
 </section>

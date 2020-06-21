@@ -22,7 +22,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     
-
     <title>Sentiment Analysis - @apfsprd</title>
   </head>
 
@@ -58,7 +57,7 @@
             </div>
     
             <div class="col">
-                <img src="http://localhost/datamining-apfsprd/img/landingpage2.svg" alt="">
+                <img src="http://localhost:8080/skripsi/img/landingpage2.svg" alt="">
             </div>
     
         </div>
