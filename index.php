@@ -13,10 +13,10 @@
 
     
 
-    $consumer_key = 'TeqroXqCXV7tXXdiYJITIEboE';
-    $consumer_secret = 'j3ST0KxNONYvg0lX6EOr4zpoOI1HwTcsJsAClwB1VNz6fBKxg2';
-    $access_token = '1004847962256695296-tVa5ARrvt89rDMZNv2aAQgWedUqFsi';
-    $access_token_secret = 'kBbkqPmJGQekNfF3hw0TW6YhgKGTG7zgMfwEqeFOsvynp';
+    $consumer_key = 'MkiSfd3gG7mXDfZkN9BliE633';
+    $consumer_secret = 'Zlf2NRCv86gOEPj42HGRf8PvU7E5pmVKU2xw21FJoO6bCCnswz';
+    $access_token = '1004847962256695296-6ZPmymPOaKEazMQlxlbbqkPywhfQ5m';
+    $access_token_secret = '0I3bjtIgbTUTJqUdvdxfnzC81ZDWKC2QjAnFx7U77yWQO';
 
     $connection = new TwitterOAuth( $consumer_key, $consumer_secret , $access_token, $access_token_secret);
     $connection->setTimeouts(10, 15);
